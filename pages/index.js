@@ -65,7 +65,7 @@ export default function Home() {
         accountId: `user@example.com`, // идентификатор плательщика (обязательно для создания подписки)
         data,
       },
-      async (options) => {
+      async () => {
         const date = moment().add(1, `M`);
         console.log(`date`, date);
         const axiosData = {
