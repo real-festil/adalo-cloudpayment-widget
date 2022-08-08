@@ -3,6 +3,8 @@ import Script from 'next/script';
 import { useState } from 'react';
 import 'react-credit-cards/es/styles-compiled.css';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import moment from 'moment';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -52,16 +54,34 @@ export default function Home() {
       },
     };
 
-    widget.charge({
-      // options
-      publicId, // id из личного кабинета
-      description, // назначение
-      amount: Number(price), // сумма
-      currency: `RUB`, // валюта
-      invoiceId, // номер заказа  (необязательно)
-      accountId: `user@example.com`, // идентификатор плательщика (обязательно для создания подписки)
-      data,
-    });
+    widget.charge(
+      {
+        // options
+        publicId, // id из личного кабинета
+        description, // назначение
+        amount: Number(price), // сумма
+        currency: `RUB`, // валюта
+        invoiceId, // номер заказа  (необязательно)
+        accountId: `user@example.com`, // идентификатор плательщика (обязательно для создания подписки)
+        data,
+      },
+      async (options) => {
+        const date = moment().add(1, `M`);
+        console.log(`date`, date);
+        const axiosData = {
+          token: `ers5u9uvg4mln8qr6icacwy4q`,
+          appId: `a35caf30-d872-4178-81ee-69c9d4195a75`,
+          email,
+          date,
+          titleText: `День оплаты`,
+          bodyText: `Сегодня будет списана оплата за тариф`,
+        };
+        await axios.post(
+          `https://adalo-notifications.herokuapp.com/`,
+          axiosData,
+        );
+      },
+    );
   };
 
   if (widget && price) {
