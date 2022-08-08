@@ -10,7 +10,8 @@ import styles from '../styles/Home.module.css';
 export default function Home() {
   const router = useRouter();
   const [widget, setWidget] = useState(null);
-  const { price, description, email, invoiceId, publicId } = router.query;
+  const { price, description, email, invoiceId, publicId, notificationDate } =
+    router.query;
 
   const onPay = async () => {
     // eslint-disable-next-line no-undef
@@ -72,7 +73,7 @@ export default function Home() {
           token: `ers5u9uvg4mln8qr6icacwy4q`,
           appId: `a35caf30-d872-4178-81ee-69c9d4195a75`,
           email,
-          date,
+          date: notificationDate || date,
           titleText: `День оплаты`,
           bodyText: `Сегодня будет списана оплата за тариф`,
         };
