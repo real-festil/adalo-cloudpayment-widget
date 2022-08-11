@@ -68,19 +68,46 @@ export default function Home() {
       },
       async () => {
         const date = moment().add(1, `M`);
-        console.log(`date`, date);
-        const axiosData = {
-          token: `ers5u9uvg4mln8qr6icacwy4q`,
-          appId: `a35caf30-d872-4178-81ee-69c9d4195a75`,
-          email,
-          date: notificationDate || date,
-          titleText: `День оплаты`,
-          bodyText: `Сегодня будет списана оплата за тариф`,
-        };
-        await axios.post(
-          `https://adalo-notifications.herokuapp.com/`,
-          axiosData,
+
+        const users = await axios.get(
+          `https://api.adalo.com/v0/apps/a35caf30-d872-4178-81ee-69c9d4195a75/collections/t_215eaeef77b946e3a6f3804783f15f9f?limit=100000`,
+          {
+            headers: {
+              Authorization: `Bearer ers5u9uvg4mln8qr6icacwy4q`, // the token is a variable which holds the token
+            },
+          },
         );
+
+        const currentUser = users.data.records.find(
+          (user) => user.Email === email,
+        );
+
+        const res = await axios.put(
+          `https://api.adalo.com/v0/apps/a35caf30-d872-4178-81ee-69c9d4195a75/collections/t_215eaeef77b946e3a6f3804783f15f9f/${currentUser.id}`,
+          {
+            'до какого оплачен тариф': date.toString(),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ers5u9uvg4mln8qr6icacwy4q`, // the token is a variable which holds the token
+            },
+          },
+        );
+
+        console.log(`users`, users, currentUser);
+        console.log(`res`, res);
+        // const axiosData = {
+        //   token: `ers5u9uvg4mln8qr6icacwy4q`,
+        //   appId: `a35caf30-d872-4178-81ee-69c9d4195a75`,
+        //   email,
+        //   date: notificationDate || date,
+        //   titleText: `День оплаты`,
+        //   bodyText: `Сегодня будет списана оплата за тариф`,
+        // };
+        // await axios.post(
+        //   `https://adalo-notifications.herokuapp.com/`,
+        //   axiosData,
+        // );
       },
     );
   };
