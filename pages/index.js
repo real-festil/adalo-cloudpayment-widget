@@ -5,12 +5,13 @@ import 'react-credit-cards/es/styles-compiled.css';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const router = useRouter();
   const [widget, setWidget] = useState(null);
-  const { price, description, email, invoiceId, publicId } = router.query;
+  const { price, description, email, publicId } = router.query;
 
   const onPay = async () => {
     // eslint-disable-next-line no-undef
@@ -61,7 +62,7 @@ export default function Home() {
         description, // назначение
         amount: Number(price), // сумма
         currency: `RUB`, // валюта
-        invoiceId, // номер заказа  (необязательно)
+        invoiceId: uuidv4(), // номер заказа  (необязательно)
         accountId: email, // идентификатор плательщика (обязательно для создания подписки)
         data,
       },
