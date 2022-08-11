@@ -10,8 +10,7 @@ import styles from '../styles/Home.module.css';
 export default function Home() {
   const router = useRouter();
   const [widget, setWidget] = useState(null);
-  const { price, description, email, invoiceId, publicId, notificationDate } =
-    router.query;
+  const { price, description, email, invoiceId, publicId } = router.query;
 
   const onPay = async () => {
     // eslint-disable-next-line no-undef
