@@ -63,7 +63,7 @@ export default function Home() {
         amount: Number(price), // сумма
         currency: `RUB`, // валюта
         invoiceId, // номер заказа  (необязательно)
-        accountId: `user@example.com`, // идентификатор плательщика (обязательно для создания подписки)
+        accountId: email, // идентификатор плательщика (обязательно для создания подписки)
         data,
       },
       async () => {
